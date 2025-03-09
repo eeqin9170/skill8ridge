@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">联系我们 - SkillBridge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8338ec;
+            --secondary: #ff006e;
+            --accent: #3a86ff;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #f3e8ff 0%, #f0f4ff 100%);
+            color: #2d3436;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 完整保留原始导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8rem;
+            color: var(--accent);
+            position: relative;
+            padding: 0.5rem 1.2rem;
+            background: 
+                linear-gradient(145deg, 
+                    rgba(255,255,255,0.9) 0%, 
+                    rgba(255,255,255,0.6) 100%);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 
+                0 4px 6px rgba(0,0,0,0.05),
+                inset 0 0 0 1px rgba(255,255,255,0.8);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient);
+            border-radius: 16px;
+            z-index: -1;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: 
+                rotate(-2deg) 
+                scale(1.05) 
+                translateY(-2px);
+            box-shadow: 
+                0 8px 15px rgba(0,0,0,0.1),
+                inset 0 0 0 1px rgba(255,255,255,0.9);
+        }
+
+        .logo:hover::before {
+            opacity: 0.5;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #2d3436;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-links a:hover {
+            background: rgba(131, 56, 236, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .language-switcher {
+            position: relative;
+        }
+
+        #languageSelect {
+            padding: 0.5rem 1.2rem;
+            border-radius: 0.8rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+        }
+
+        #languageSelect:hover {
+            background: rgba(255,255,255,1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 完整联系卡片样式 */
+        .contact-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            width: 90%;
+            max-width: 600px;
+            padding: 3rem;
+            border-radius: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-card:hover {
+            transform: translate(-50%, -52%);
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* 完整聊天组件样式 */
+        .chat-bubble {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(131, 56, 236, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 8rem;
+            right: 2rem;
+            width: 350px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.1);
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .chat-window.active {
+            transform: scale(1);
+        }
+
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+        }
+
+        .chat-messages {
+            height: 300px;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .message {
+            padding: 12px 16px;
+            margin: 10px 0;
+            border-radius: 1.5rem;
+            max-width: 80%;
+            clear: both;
+            animation: messageFade 0.3s ease;
+        }
+
+        @keyframes messageFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            background: rgba(131, 56, 236, 0.1);
+            float: right;
+        }
+
+        .message.bot {
+            background: rgba(255, 255, 255, 0.8);
+            float: left;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .message-input {
+            display: flex;
+            padding: 1.5rem;
+            gap: 1rem;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .message-input button {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .message-input button:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            #languageSelect {
+                padding: 0.5rem;
+            }
+            .contact-card {
+                padding: 2rem;
+                width: 95%;
+            }
+            .chat-window {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 完整保留原始HTML结构 -->
+    <nav class="navbar">
+        <div class="logo">SkillBridge</div>
+        <div class="nav-links">
+            <a href="homepage.php" data-i18n="nav.home"></a>
+            <a href="#courses" data-i18n="nav.courses"></a>
+            <a href="#progress" data-i18n="nav.progress"></a>
+            <a href="contact.html" data-i18n="nav.contact"></a>
+            <div class="language-switcher">
+                <select id="languageSelect" onchange="changeLanguage(this.value)">
+                    <option value="zh">中文</option>
+                    <option value="en">English</option>
+                    <option value="ms">Bahasa Melayu</option>
+                </select>
+            </div>
+        </div>
+    </nav>
+
+    <div class="contact-card">
+        <div class="contact-header">
+            <h1 data-i18n="contact.title"></h1>
+            <p data-i18n="contact.subtitle"></p>
+        </div>
+        
+        <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+                <h3 data-i18n="contact.email"></h3>
+                <p>rqstudysupport@skillbridge.com</p>
+            </div>
+        </div>
+
+        <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+            <div>
+                <h3 data-i18n="contact.phone"></h3>
+                <p>+038886369</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-bubble" onclick="toggleChat()">
+        <i class="fas fa-comment-dots" style="color: white; font-size: 1.5rem;"></i>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header" data-i18n="chat.title"></div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="message-input">
+            <input type="text" data-i18n-placeholder="chat.placeholder" id="messageInput">
+            <button onclick="sendMessage()" data-i18n="chat.send"></button>
+        </div>
+    </div>
+
+    <script>
+        // 完整功能脚本
+        const translations = {
+            zh: {
+                title: "联系我们 - SkillBridge",
+                nav: { home: "首页", courses: "课程", progress: "进度", contact: "联系" },
+                contact: { title: "联系我们", subtitle: "随时为您提供支持", email: "电子邮件", phone: "联系电话" },
+                chat: { 
+                    title: "在线客服", 
+                    placeholder: "输入消息...", 
+                    send: "发送",
+                    reply: "感谢您的消息！客服将在24小时内回复。",
+                    greeting: "您好！需要什么帮助？"
+                }
+            },
+            en: {
+                title: "Contact Us - SkillBridge",
+                nav: { home: "Home", courses: "Courses", progress: "Progress", contact: "Contact" },
+                contact: { title: "Contact Us", subtitle: "24/7 Support Available", email: "Email", phone: "Phone" },
+                chat: { 
+                    title: "Live Chat", 
+                    placeholder: "Type a message...", 
+                    send: "Send",
+                    reply: "Thank you! We'll respond within 24 hours.",
+                    greeting: "Hello! How can we help?"
+                }
+            },
+            ms: {
+                title: "Hubungi Kami - SkillBridge",
+                nav: { home: "Utama", courses: "Kursus", progress: "Kemajuan", contact: "Hubungi" },
+                contact: { title: "Hubungi Kami", subtitle: "Sokongan 24/7", email: "E-mel", phone: "Telefon" },
+                chat: { 
+                    title: "Sembang Langsung", 
+                    placeholder: "Taip mesej...", 
+                    send: "Hantar",
+                    reply: "Terima kasih! Kami akan membalas dalam 24 jam.",
+                    greeting: "Helo! Ada yang boleh kami bantu?"
+                }
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'zh';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            applyTranslations();
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const [domain, key] = el.dataset.i18n.split('.');
+                el.textContent = translations[currentLang][domain][key];
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                el.placeholder = translations[currentLang].chat.placeholder;
+            });
+
+            document.title = translations[currentLang].title;
+            document.getElementById('languageSelect').value = currentLang;
+        }
+
+        function toggleChat() {
+            document.getElementById('chatWindow').classList.toggle('active');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const messages = document.getElementById('chatMessages');
+            
+            if (input.value.trim()) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message user';
+                messageDiv.textContent = input.value;
+                messages.appendChild(messageDiv);
+
+                setTimeout(() => {
+                    const replyDiv = document.createElement('div');
+                    replyDiv.className = 'message bot';
+                    replyDiv.textContent = translations[currentLang].chat.reply;
+                    messages.appendChild(replyDiv);
+                    messages.scrollTop = messages.scrollHeight;
+                }, 800);
+
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTranslations();
+            
+            // 初始化欢迎消息
+            setTimeout(() => {
+                const welcomeMsg = document.createElement('div');
+                welcomeMsg.className = 'message bot';
+                welcomeMsg.textContent = translations[currentLang].chat.greeting;
+                document.getElementById('chatMessages').appendChild(welcomeMsg);
+            }, 500);
+
+            // 增强回车功能
+            document.getElementById('messageInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // 保留原始粒子动画
+            const canvas = document.createElement('canvas');
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                    this.size = Math.random() * 3 + 2;
+                }
+
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(131, 56, 236, ${this.size/5})`;
+                    ctx.fill();
+                }
+            }
+
+            function init() {
+                particles = Array.from({ length: 50 }, () => new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+            init();
+            animate();
+        });
+    </script>
+</body>
+</html>
