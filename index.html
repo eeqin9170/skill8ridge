@@ -202,6 +202,10 @@
 </head>
 <body>
     <canvas class="particle-canvas"></canvas>
+    <div class="container">
+        <h1>GitHub Pages API 数据</h1>
+        <pre id="githubData">加载中...</pre>
+    </div>
     
     <div class="language-switcher">
         <select id="languageSelect" onchange="changeLanguage(this.value)">
@@ -258,6 +262,24 @@
     </div>
 
     <script>
+        async function fetchGitHubPagesData() {
+            const username = "eeqin9170";  // 替换成你的 GitHub 用户名
+            const repo = "skill8ridge";      // 替换成你的 GitHub 仓库名
+            const apiUrl = `https://api.github.com/repos/${username}/${repo}/pages`;
+            
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP 错误！状态码: ${response.status}`);
+                }
+                const data = await response.json();
+                document.getElementById("githubData").textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById("githubData").textContent = `请求失败: ${error.message}`;
+            }
+        }
+
+        fetchGitHubPagesData();
         // 多语言配置
         const translations = {
             'zh-CN': {
